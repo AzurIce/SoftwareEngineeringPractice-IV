@@ -8,5 +8,6 @@ public class Main {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
         MyService myService = ctx.getBean(MyService.class);
         myService.hello();
+        System.out.println(myService);
     }
 }
