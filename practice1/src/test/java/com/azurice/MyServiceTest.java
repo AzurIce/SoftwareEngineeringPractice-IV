@@ -47,4 +47,11 @@ public class MyServiceTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    void testDI() {
+        Person person = ctx.getBean(Person.class);
+        System.out.println(person);
+        person.write();
+    }
 }
