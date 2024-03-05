@@ -15,10 +15,11 @@ public class AppConfig {
     @Bean
     public DruidDataSource druidDataSource() {
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/mysql?characterEncoding=utf-8");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306?characterEncoding=utf-8");
         dataSource.setUsername("root");
-        dataSource.setPassword("root");
+//        dataSource.setPassword("root");
+
         return dataSource;
     }
 }

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MyServiceTest {
@@ -38,5 +40,11 @@ public class MyServiceTest {
     void testDruidDataSource() {
         DruidDataSource druidDataSource = ctx.getBean(DruidDataSource.class);
         System.out.println(druidDataSource);
+        try {
+            var meta = druidDataSource.getConnection().getMetaData();
+            System.out.println(meta);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
