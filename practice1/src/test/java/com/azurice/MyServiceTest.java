@@ -30,6 +30,14 @@ public class MyServiceTest {
     }
 
     @Test
+    void testHello2() {
+        MyService myService = ctx.getBean("s1", MyService.class);
+//        System.out.println(myService);
+        assertEquals("s2", myService.name);
+    }
+
+
+    @Test
     void testHelloFailed() {
         MyService myService = ctx.getBean(MyService.class);
         System.out.println(myService);

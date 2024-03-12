@@ -9,9 +9,20 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 public class AppConfig {
 
-    @Bean
-    public MyService myService() {
-        return new MyService();
+//    @Bean
+//    public MyService myService() {
+//        return new MyService();
+//    }
+
+
+    @Bean("s1")
+    public MyService s1() {
+        return new MyService("s1");
+    }
+
+    @Bean("s2")
+    public MyService s2() {
+        return new MyService("s2");
     }
 
     @Bean
