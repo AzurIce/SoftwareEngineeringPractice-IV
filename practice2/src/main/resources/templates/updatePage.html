@@ -14,7 +14,7 @@
 <div style="width:800px;height:100%;margin-left:270px;">
     <form th:action="@{'/update'}" method="post">
         ID：
-        <input class="form-control" name="id" type="text" th:value="${user.id}" readonly="readonly"><br>
+        <input class="form-control" type="text" th:value="${user.id}" name="id" readonly="readonly"><br>
         用户名：
         <input class="form-control" type="text" th:value="${user.username}" name="username"><br>
         密 码：

@@ -62,8 +62,8 @@ public class MyUserController {
     public String updateUser(Model model, MyUser user, HttpServletRequest request) {
         String id = request.getParameter("id");
         MyUser userById = myUserService.findUserById(Integer.parseInt(id));
+        user.setId(Integer.parseInt(id));
         myUserService.update(user);
-        System.out.println(user);
         return "redirect:/userList";
     }
 }
