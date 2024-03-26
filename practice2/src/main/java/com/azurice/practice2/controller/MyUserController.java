@@ -15,6 +15,7 @@ public class MyUserController {
     @Autowired
     private MyUserService myUserService;
 
+    @ResponseBody
     @RequestMapping("/findAll")
     public List<MyUser> findAll(){
         System.out.println("findAll");
