@@ -16,31 +16,38 @@ public class MyUserController {
     private MyUserService myUserService;
 
 //    @ResponseBody
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "*")
     @GetMapping("/user")
     public List<MyUser> getUsers(){
         return myUserService.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "*")
     @PostMapping("/user")
     public void createUser(@RequestBody MyUser user) {
         myUserService.save(user);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "*")
+    @PostMapping("/login")
+    public boolean login(@RequestBody MyUser user) {
+        MyUser dbu = myUserService.findUserByName(user.getUsername());
+        return dbu.getPassword().equals(user.getPassword());
+    }
+
+    @CrossOrigin(origins = "*")
     @GetMapping("/user/{id}")
     public MyUser getUserById(@PathVariable int id) {
         return myUserService.findUserById(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/user/{id}")
     public int deleteUserById(@PathVariable int id) {
         return myUserService.delete(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "*")
     @PutMapping("/user/{id}")
     public void updateUserById(@RequestBody MyUser user, @PathVariable int id) {
         System.out.println(user.getPassword());

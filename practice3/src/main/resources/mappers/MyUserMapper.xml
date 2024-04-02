@@ -24,6 +24,11 @@
         SELECT * FROM stus WHERE id = #{id}
     </select>
 
+    <!-- 根据username查询用户 -->
+    <select id="findUserByUsername" resultType="com.azurice.practice3.model.MyUser">
+        SELECT * FROM stus WHERE username = #{username}
+    </select>
+
     <!-- 更改用户信息 -->
     <update id="update" parameterType="com.azurice.practice3.model.MyUser">
         UPDATE stus SET username=#{username},password=#{password} WHERE id=#{id}

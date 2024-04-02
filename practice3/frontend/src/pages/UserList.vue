@@ -7,7 +7,9 @@ import {useRoute} from "vue-router";
 const users = ref([])
 
 async function updateUser() {
-  const res = await axios.get("http://127.0.0.1:8080/practice3/user");
+  const res = await axios.get("http://127.0.0.1:8080/practice3/user", {
+    'Access-Control-Allow-Origin': '*'
+  });
   users.value = res.data
 }
 
@@ -16,7 +18,11 @@ const route = useRoute()
 watch(() => route, updateUser)
 
 onMounted(() => {
-  updateUser()
+  if (!localStorage.getItem("loggedIn")) {
+    router.push("login");
+  } else {
+    updateUser()
+  }
 })
 
 async function onDelete(id) {
@@ -27,11 +33,21 @@ async function onDelete(id) {
 
 const page = ref('list')
 
+function onLogout() {
+  localStorage.removeItem("loggedIn");
+  router.push(`login`);
+}
 
 </script>
 
 <template>
 
+  <button class="btn btn-primary form-control" style="height:50px" @click="onLogout">
+    logout
+  </button>
+<!--  <button class="btn btn-primary form-control" style="height:50px" @click="() => {$router.push(`login`)}">-->
+<!--    login-->
+<!--  </button>-->
   <button class="btn btn-primary form-control" style="height:50px" @click="() => {$router.push(`create`)}">
     添加用户
   </button>

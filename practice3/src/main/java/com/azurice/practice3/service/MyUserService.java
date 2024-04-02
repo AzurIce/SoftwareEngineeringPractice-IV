@@ -19,6 +19,11 @@ public interface MyUserService {
     MyUser findUserById(int id);
 
     /*
+     * 根据id查找用户
+     */
+    MyUser findUserByName(String username);
+
+    /*
      * 更改用户信息
      */
     int update(MyUser user);
