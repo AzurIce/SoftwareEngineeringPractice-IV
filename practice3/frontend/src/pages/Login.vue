@@ -13,7 +13,11 @@ onMounted(() => {
 
 async function onSubmit() {
   console.log(user.value)
-  const res = await axios.post(`http://127.0.0.1:8080/practice3/login`, user.value)
+  try {
+    const res = await axios.post(`http://127.0.0.1:8080/practice3/login`, user.value)
+  } catch (e) {
+    alert("用户名或密码错误")
+  }
   console.log(res)
   localStorage.setItem("loggedIn", "1")
   await router.push("/")
