@@ -1,10 +1,16 @@
-use axum::{routing::get, Router};
+use axum::{
+    http::{header, StatusCode},
+    response::IntoResponse,
+    routing::get,
+    Json, Router,
+};
 use consulrs::{
     api::{check::common::AgentServiceCheckBuilder, service::requests::RegisterServiceRequest},
     client::{ConsulClient, ConsulClientSettingsBuilder},
     error::ClientError,
     service,
 };
+use serde_json::json;
 
 const CONSUL_ENDPOINT: &str = "http://127.0.0.1:8500";
 
@@ -59,4 +65,22 @@ pub async fn register_service(name: &str, addr: &str, port: u32) -> Result<(), C
     .await?;
 
     Ok(())
+}
+
+pub struct ApiError {
+    pub msg: String,
+    pub status_code: StatusCode,
+    pub error_code: Option<u16>,
+}
+
+impl IntoResponse for ApiError {
+    fn into_response(self) -> axum::response::Response {
+        (
+            self.status_code,
+            [(header::CONTENT_TYPE, "application/json")],
+            Json(
+                json!({"StatusCode": self.status_code.as_u16(), "ErrorCode": self.error_code, "Message": self.msg}),
+            ),
+        ).into_response()
+    }
 }

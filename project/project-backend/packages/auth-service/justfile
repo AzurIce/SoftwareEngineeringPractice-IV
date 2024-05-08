@@ -1,0 +1,5 @@
+migrate:
+    sea-orm-cli migrate refresh
+
+entity:
+    sea-orm-cli generate entity -o src/entities
