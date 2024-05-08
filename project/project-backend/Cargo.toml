@@ -1,0 +1,6 @@
+[workspace]
+members = ["packages/*"]
+
+[workspace.dependencies]
+consul_utils = { path = "packages/consul_utils" }
+axum = "0.6.20"

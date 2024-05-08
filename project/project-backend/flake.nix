@@ -33,11 +33,12 @@
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            consul
-            traefik
+            # consul
+            # traefik
           ] ++ [
             rust-tools
           ] ++ (with pkgs.darwin.apple_sdk.frameworks; pkgs.lib.optionals pkgs.stdenv.isDarwin [
+            SystemConfiguration
           ]);
         };
       }

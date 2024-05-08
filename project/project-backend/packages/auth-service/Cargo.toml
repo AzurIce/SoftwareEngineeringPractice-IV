@@ -1,0 +1,10 @@
+[package]
+name = "auth-service"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+consul_utils.workspace = true
+axum.workspace = true
+tokio = { version = "1.36.0", features = ["full"] }
+lazy_static = "1.4.0"
