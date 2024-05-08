@@ -1,0 +1,2 @@
+include:
+  - services/auth/auth_service.yaml
