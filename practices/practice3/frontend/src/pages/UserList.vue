@@ -7,7 +7,7 @@ import {useRoute} from "vue-router";
 const users = ref([])
 
 async function updateUser() {
-  const res = await axios.get("http://127.0.0.1:8080/practice3/user", {
+  const res = await axios.get("http://10.53.254.167:9090/users", {
     'Access-Control-Allow-Origin': '*'
   });
   users.value = res.data
@@ -26,7 +26,7 @@ onMounted(() => {
 })
 
 async function onDelete(id) {
-  const res = await axios.delete(`http://127.0.0.1:8080/practice3/user/${id}`)
+  const res = await axios.delete(`http://10.53.254.167:9090/user/${id}`)
   console.log(res)
   await updateUser()
 }

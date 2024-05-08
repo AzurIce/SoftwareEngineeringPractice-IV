@@ -1,0 +1,7 @@
+[providers.consulCatalog]
+defaultRule = "PathPrefix(`/{{ .Name }}`)"
+exposedByDefault = true
+endpoint = { address = "127.0.0.1:8500", scheme = "http" }
+
+[api]
+insecure = true
