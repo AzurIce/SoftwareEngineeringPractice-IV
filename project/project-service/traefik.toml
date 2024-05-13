@@ -1,12 +1,11 @@
+[log]
+  level = "DEBUG"
+
 [entryPoints]
   [entryPoints.web]
     address = ":80"
 
-# enable consulCatalog as procider
-[providers.consulCatalog]
-defaultRule = "Host(`{{ .Name }}.localhost`)"
-exposedByDefault = true
-endpoint = { address = "127.0.0.1:8500", scheme = "http" }
+[providers.docker]
 
 [api]
 insecure = true

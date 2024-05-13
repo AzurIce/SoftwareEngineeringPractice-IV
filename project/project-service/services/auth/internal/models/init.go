@@ -2,13 +2,9 @@ package models
 
 import (
 	"auth/internal/bootstrap"
-	// "auth/internal/utils"
 	"log"
 
 	"gorm.io/driver/postgres"
-	// "gorm.io/gorm/logger"
-
-	// "gocloud.dev/mysql"
 	"gorm.io/gorm"
 )
 
@@ -17,11 +13,12 @@ var DB *gorm.DB
 func InitDB() {
 	var db *gorm.DB
 	var err error
-	log.Println("connecting to database: %s", bootstrap.Config.SQLDSN)
+	log.Printf("connecting to database %s...\n", bootstrap.Config.SQLDSN)
 	db, err = gorm.Open(postgres.Open(bootstrap.Config.SQLDSN), &gorm.Config{})
 	if err != nil {
 		log.Panicf("无法连接数据库，%s", err)
 	}
+	log.Println("database connected")
 	sqlDB, err := db.DB()
 	if err == nil {
 		// SetMaxIdleConns sets the maximum number of connections in the idle connection pool.

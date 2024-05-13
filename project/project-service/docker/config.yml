@@ -1,0 +1,2 @@
+jwt_signing_string: MCGxSj
+sql_dsn: postgres://root:root@postgres:5432/auth
