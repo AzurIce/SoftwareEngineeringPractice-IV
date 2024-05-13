@@ -46,7 +46,7 @@ services:
       - ./docker/pgsql/init-auth-db.sql:/docker-entrypoint-initdb.d/init-auth-db.sql
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U root"]
+      test: [ "CMD-SHELL", "pg_isready -U root -d root"]
       timeout: 10s
       interval: 5s
       retries: 2
@@ -54,4 +54,25 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       PGDATA: /data/postgres 
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./docker/pgsql/pgadmin-data:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 973562770@qq.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      SCRIPT_NAME: /pgadmin4
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pgadmin.entrypoints=web
+      - traefik.http.routers.pgadmin.service=pgadmin
+      - traefik.http.services.pgadmin.loadbalancer.server.port=80
+      - traefik.http.routers.pgadmin.rule=Host(`pgadmin.localhost`) && PathPrefix(`/pgadmin4`)
 
