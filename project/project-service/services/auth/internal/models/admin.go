@@ -24,11 +24,12 @@ func CreateAdmin(username string, password string) (*Manager, error) {
 }
 
 // GetAdminById gets the admin user corresponding to the given id
-func GetAdminById(id uint) (user *Manager, err error) {
-	if err = DB.First(user, id).Error; err != nil {
+func GetAdminById(id uint) (*Manager, error) {
+	var manager Manager
+	if err := DB.First(&manager, id).Error; err != nil {
 		return nil, err
 	}
-	return user, nil
+	return &manager, nil
 }
 
 // GetAdminByUsername gets the admin user corresponding to the given username

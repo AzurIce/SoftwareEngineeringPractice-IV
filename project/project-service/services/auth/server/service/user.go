@@ -5,6 +5,7 @@ import (
 	"auth/internal/jwt"
 	"auth/internal/models"
 	"errors"
+	// "log"
 
 	// "auth/internal/utils"
 	// "mime/multipart"
@@ -12,7 +13,7 @@ import (
 	// "strings"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
+	// "gorm.io/gorm"
 )
 
 // Login to an account
@@ -33,7 +34,7 @@ func (service *Login) Handle(c *gin.Context) (any, error) {
 		return nil, errors.New("password cannot be empty")
 	}
 
-	if user, err = models.GetUserByUsername(service.Username); err == gorm.ErrRecordNotFound {
+	if user, err = models.GetUserByUsername(service.Username); err != nil {
 		return nil, err
 	}
 
@@ -49,7 +50,7 @@ func (service *Login) Handle(c *gin.Context) (any, error) {
 	// c.SetCookie("token", jwtToken, 3600, "/", "localhost", false, true)
 	res := make(map[string]any)
 	res["token"] = jwtToken
-	res["user"] = user
+	res["user"] = *user
 	res["msg"] = "login success"
 	return res, nil
 }

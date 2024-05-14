@@ -27,11 +27,12 @@ func CreateUser(username string, password string) (*User, error) {
 }
 
 // GetUserById gets the user corresponding to the given id
-func GetUserById(id uint) (user *User, err error) {
-	if err = DB.First(user, id).Error; err != nil {
+func GetUserById(id uint) (*User, error) {
+	var user User
+	if err := DB.First(&user, id).Error; err != nil {
 		return nil, err
 	}
-	return user, nil
+	return &user, nil
 }
 
 // DeleteUserById deletes the user corresponding to the given id
@@ -82,9 +83,10 @@ func (user *User) ChangeSignature(signature string) error {
 	return result.Error
 }
 
-func GetUserByUsername(username string) (user *User, err error) {
-	if err := DB.Where("username = ?", username).First(user).Error; err != nil {
+func GetUserByUsername(username string) (*User, error) {
+	var user User
+	if err := DB.Where("username = ?", username).First(&user).Error; err != nil {
 		return nil, err
 	}
-	return user, nil
+	return &user, nil
 }

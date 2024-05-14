@@ -43,7 +43,7 @@ func (service *Login) Handle(c *gin.Context) (any, error) {
 	// c.SetCookie("token", jwtToken, 3600, "/", "localhost", false, true)
 	res := make(map[string]any)
 	res["token"] = jwtToken
-	res["user"] = user
+	res["user"] = *user
 	res["msg"] = "login success"
 	return res, nil
 }
