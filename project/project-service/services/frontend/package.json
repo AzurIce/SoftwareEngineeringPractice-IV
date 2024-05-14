@@ -12,6 +12,7 @@
   "devDependencies": {
     "solid-devtools": "^0.29.2",
     "typescript": "^5.3.3",
+    "unocss": "^0.60.2",
     "vite": "^5.0.11",
     "vite-plugin-solid": "^2.8.2"
   },
