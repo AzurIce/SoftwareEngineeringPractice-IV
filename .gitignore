@@ -1,3 +1,5 @@
 node_modules
 .direnv
 .DS_Store
+/project/project-service/docker/pgsql/data
+/project/project-service/docker/pgsql/pgadmin-data
