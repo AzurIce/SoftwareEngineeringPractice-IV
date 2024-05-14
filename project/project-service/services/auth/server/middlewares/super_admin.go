@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AdminCheck() gin.HandlerFunc {
+func SuperAdminCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		claims := jwt.MustGetClaims(c)
 		if claims.Role != jwt.Admin {
@@ -17,7 +17,7 @@ func AdminCheck() gin.HandlerFunc {
 			return
 		}
 
-		if _, err := models.GetAdminById(claims.ID); err == nil {
+		if admin, err := models.GetAdminById(claims.ID); err == nil && admin.IsSuperAdmin() {
 			c.Next()
 			return
 		}

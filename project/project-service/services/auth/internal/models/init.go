@@ -2,6 +2,7 @@ package models
 
 import (
 	"auth/internal/bootstrap"
+	"auth/internal/utils"
 	"log"
 
 	"gorm.io/driver/postgres"
@@ -43,52 +44,40 @@ func InitDB() {
 	}
 
 	// 创建初始管理员账户
-	// addDefaultUser()
+	addDefaultUser()
 }
 
 func deleteData() {
 	// log.Println("正在删库🥳...")
 	DB.Where("1 = 1").Delete(&User{})
-	// DB.Where("1 = 1").Delete(&File{})
-	// DB.Where("1 = 1").Delete(&Course{})
-	// DB.Where("1 = 1").Delete(&Homework{})
-	// DB.Where("1 = 1").Delete(&HomeworkSubmission{})
-	// DB.Where("1 = 1").Delete(&Comment{})
-	// DB.Where("1 = 1").Delete(&Complaint{})
 }
 
 func Migrate() {
 	DB.AutoMigrate(&User{})
-	// DB.AutoMigrate(&File{})
-	// DB.AutoMigrate(&Course{})
-	// DB.AutoMigrate(&Homework{})
-	// DB.AutoMigrate(&HomeworkSubmission{})
-	// DB.AutoMigrate(&Comment{})
-	// DB.AutoMigrate(&Complaint{})
 }
 
 func generateData() {
 	CreateUser("xb", "xb")
 }
 
-// func addDefaultUser() {
-// 	_, err := GetUserByID(1)
-// 	password := utils.RandStringRunes(8)
+func addDefaultUser() {
+	_, err := GetUserById(1)
 
-// 	if err == gorm.ErrRecordNotFound {
-// 		defaultUser := &User{}
+	if err == gorm.ErrRecordNotFound {
+		password := utils.RandStringRunes(8)
 
-// 		defaultUser.ID = 1
-// 		defaultUser.Username = "Admin"
-// 		defaultUser.Password = utils.EncodePassword(password, utils.RandStringRunes(16))
-// 		defaultUser.IsAdmin = true
+		defaultAdmin := &Manager{
+			ID:       1,
+			Username: "admin",
+			Password: utils.EncodePassword(password, utils.RandStringRunes(16)),
+		}
 
-// 		if err := DB.Create(&defaultUser).Error; err != nil {
-// 			log.Panicf("创建初始管理员账户失败: %s\n", err)
-// 		}
+		if err := DB.Create(&defaultAdmin).Error; err != nil {
+			log.Panicf("创建初始管理员账户失败: %s\n", err)
+		}
 
-// 		// log.Println("初始管理员账户创建完成")
-// 		// log.Printf("用户名: %s\n", "Admin")
-// 		// log.Printf("密码: %s\n", password)
-// 	}
-// }
+		log.Println("初始管理员账户创建完成")
+		log.Printf("用户名: %s\n", "Admin")
+		log.Printf("密码: %s\n", password)
+	}
+}

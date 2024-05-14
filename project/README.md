@@ -10,5 +10,5 @@
     Kotlin + Jetpack Compose
 - `project-frontend`：大作业 web 端
     SolidJs
-- `project-backend`：大作业后端
-    Rust + Consul + Traefik
+- `project-service`：大作业服务端
+    Golang + Docker Compose + Traefik

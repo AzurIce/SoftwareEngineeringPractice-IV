@@ -9,14 +9,23 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
+type Role int
+
+const (
+	Admin Role = iota
+	User
+)
+
 type MyCustomClaims struct {
-	ID uint `json:"ID"`
+	ID   uint `json:"ID"`
+	Role Role `json:"Role"`
 	jwt.RegisteredClaims
 }
 
-func CreateToken(id uint) (string, error) {
+func CreateToken(id uint, role Role) (string, error) {
 	return jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), MyCustomClaims{
 		id,
+		role,
 		jwt.RegisteredClaims{
 			// ExpiresAt: time.Now().Add(time.Minute * 1).Unix(),
 		},

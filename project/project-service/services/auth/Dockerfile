@@ -10,5 +10,5 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /app/micro-auth
 FROM alpine:latest
 WORKDIR /app
 COPY --from=auth-compiler /app/micro-auth /app/micro-auth
-EXPOSE 3333
+EXPOSE 80
 ENTRYPOINT ["/app/micro-auth"]
