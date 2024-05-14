@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
+import suidPlugin from "@suid/vite-plugin";
 import solidPlugin from 'vite-plugin-solid';
 import UnoCSS from 'unocss/vite';
+
 // import devtools from 'solid-devtools/vite';
 
 export default defineConfig({
@@ -11,6 +13,7 @@ export default defineConfig({
     */
     // devtools(),
     UnoCSS(),
+    suidPlugin(), 
     solidPlugin(),
   ],
   server: {

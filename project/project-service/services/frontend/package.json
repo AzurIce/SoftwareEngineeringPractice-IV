@@ -2,6 +2,7 @@
   "name": "vite-template-solid",
   "version": "0.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -17,6 +18,9 @@
     "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {
+    "@suid/icons-material": "^0.7.0",
+    "@suid/material": "^0.16.0",
+    "@suid/vite-plugin": "^0.2.0",
     "solid-js": "^1.8.11"
   }
 }
