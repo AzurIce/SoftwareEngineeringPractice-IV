@@ -1,0 +1,11 @@
+[log]
+  level = "DEBUG"
+
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+
+[providers.docker]
+
+[api]
+insecure = true

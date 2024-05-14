@@ -1,0 +1,78 @@
+version: "3"
+
+services:
+  reverse-proxy:
+    # The official v3 Traefik docker image
+    image: traefik:v3.0
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.postgres.address=:5432"
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "5432:5432"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  whoami:
+    image: "traefik/whoami"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.services.whoami.loadbalancer.server.port=80"
+
+  auth:
+    build: ./services/auth
+    volumes:
+      - ./docker/config.yml:/app/config.yml
+    depends_on:
+      postgres:
+        condition: service_healthy
+    labels: 
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=Host(`auth.localhost`)"
+      - "traefik.http.services.auth.loadbalancer.server.port=80"
+
+  postgres:
+    image: postgres:alpine
+    volumes:
+      - ./docker/pgsql/data:/data/postgres
+      - ./docker/pgsql/init-auth-db.sql:/docker-entrypoint-initdb.d/init-auth-db.sql
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U root -d root"]
+      timeout: 10s
+      interval: 5s
+      retries: 2
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      PGDATA: /data/postgres 
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./docker/pgsql/pgadmin-data:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 973562770@qq.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      SCRIPT_NAME: /pgadmin4
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pgadmin.entrypoints=web
+      - traefik.http.routers.pgadmin.service=pgadmin
+      - traefik.http.services.pgadmin.loadbalancer.server.port=80
+      - traefik.http.routers.pgadmin.rule=Host(`pgadmin.localhost`) && PathPrefix(`/pgadmin4`)
+
