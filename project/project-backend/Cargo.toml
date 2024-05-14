@@ -1,7 +1,0 @@
-[workspace]
-members = ["packages/*"]
-
-[workspace.dependencies]
-consul_utils = { path = "packages/consul_utils" }
-axum = { version = "0.6.20", fratures = ["macros"] }
-sea-orm = { version = "0.12", features = [ "sqlx-postgres", "runtime-tokio-rustls", "macros" ] }
