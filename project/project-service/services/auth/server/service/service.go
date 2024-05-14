@@ -2,6 +2,7 @@ package service
 
 import (
 	"auth/internal/serializer"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -38,14 +39,16 @@ func HandlerWithBindType(s Service, bindType int) gin.HandlerFunc {
 		// "application/xml"  --> XML binding
 		if bindType&BindUri != 0 {
 			if err = c.ShouldBindUri(s); err != nil {
-				// log.Printf("[Handler]: Failed to bind: %v\n", err)
+				log.Printf("[Handler/BindUri]: Failed to bind: %v\n", err)
 				c.JSON(http.StatusBadRequest, serializer.ErrorResponse(err))
+				return
 			}
 		}
 		if bindType&Bind != 0 {
 			if err = c.ShouldBind(s); err != nil {
-				// log.Printf("[Handler]: Failed to bind: %v\n", err)
+				log.Printf("[Handler/Bind]: Failed to bind: %v\n", err)
 				c.JSON(http.StatusBadRequest, serializer.ErrorResponse(err))
+				return
 			}
 		}
 
