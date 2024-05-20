@@ -24,7 +24,7 @@ func InitRouter() *gin.Engine {
 		路由
 	*/
 	api := r.Group("api")
-	// api.Use(gin.Logger())
+	api.Use(gin.Logger())
 	api.Use(gin.Recovery())
 	{
 		v1 := api.Group("v1")
@@ -59,7 +59,7 @@ func InitRouter() *gin.Engine {
 			admin := v1.Group("admin")
 			{
 				// POST api/v1/admin/login   | 登录
-				admin.POST("login", service.HandlerBind(&service.Login{}))
+				admin.POST("login", service.HandlerBind(&admin_service.Login{}))
 
 				auth := admin.Group("")
 				auth.Use(middlewares.JWTAuth()).Use(middlewares.AdminCheck())

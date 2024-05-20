@@ -54,7 +54,7 @@ func HandlerWithBindType(s Service, bindType int) gin.HandlerFunc {
 
 		res, err := s.Handle(c)
 		if err != nil {
-			// log.Println(err.Error())
+			log.Println(err.Error())
 			c.JSON(http.StatusBadRequest, serializer.ErrorResponse(err))
 		} else {
 			// log.Println("StatusOK")

@@ -33,11 +33,12 @@ func GetAdminById(id uint) (*Manager, error) {
 }
 
 // GetAdminByUsername gets the admin user corresponding to the given username
-func GetAdminByUsername(username string) (user *Manager, err error) {
-	if err := DB.Where("username = ?", username).First(user).Error; err != nil {
+func GetAdminByUsername(username string) (*Manager, error) {
+	var manager Manager
+	if err := DB.Where("username = ?", username).First(&manager).Error; err != nil {
 		return nil, err
 	}
-	return user, nil
+	return &manager, nil
 }
 
 // DeleteAmdinById deletes the admin user corresponding to the given id

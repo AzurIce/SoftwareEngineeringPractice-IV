@@ -1,0 +1,2 @@
+jwt_signing_string: JEFEKm
+sql_dsn: postgres://azurice:@127.0.0.1:5432/auth

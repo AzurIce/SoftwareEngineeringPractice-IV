@@ -4,6 +4,7 @@ import (
 	"auth/internal/jwt"
 	"auth/internal/models"
 	"errors"
+	// "log"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
