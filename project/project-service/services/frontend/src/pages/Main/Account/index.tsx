@@ -1,6 +1,7 @@
 import { Add, Delete, Edit } from "@suid/icons-material";
 import { Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
-import { Component, For } from "solid-js";
+import { Component, For, createSignal } from "solid-js";
+import CreateAdminModal from "../../../components/CreateAdminModal";
 
 function createData(
   id: number,
@@ -18,7 +19,12 @@ const rows = [
 ];
 
 const Account: Component = () => {
+  const showSignal = createSignal(true);
+  const [show, setShow] = showSignal;
+
   return <>
+    <CreateAdminModal open={showSignal}/>
+
     <div class="m-4 w-full flex flex-col gap-4">
       <Paper sx={{
         padding: 2,
@@ -28,7 +34,7 @@ const Account: Component = () => {
       }}>
         <Typography variant="h6">管理员列表</Typography>
         <ButtonGroup>
-          <Button>添加账号<Add /></Button>
+          <Button onClick={() => { setShow(true) }}>添加管理员账号<Add /></Button>
         </ButtonGroup>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
