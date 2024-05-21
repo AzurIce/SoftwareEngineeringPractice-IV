@@ -1,5 +1,7 @@
+import { cache } from "@solidjs/router";
 import { AlertColor } from "@suid/material/Alert";
 import { createStore } from "solid-js/store";
+import { getManagers as apiGetAdmins } from "./user";
 
 interface User {
   id: number,
@@ -76,3 +78,12 @@ export const AlertsStore = () => {
   }
   return { alerts, addAlert, delAlert, newErrorAlert, newWarningAlert, newInfoAlert, newSuccessAlert }
 }
+
+export type Admin = {
+  id: number,
+  username: string,
+}
+
+export const getManagers = cache(async () => {
+  return await apiGetAdmins()
+}, "managers")

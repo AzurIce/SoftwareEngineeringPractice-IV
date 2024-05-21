@@ -7,7 +7,7 @@ import (
 )
 
 type Manager struct {
-	ID       uint   `json:"id" gorm:"primaryKey"`
+	ID       uint   `json:"id" gorm:"primaryKey; autoIncrement"`
 	Username string `json:"username" gorm:"uniqueIndex; not null"`
 	Password string `json:"-" gorm:"not null"`
 }
@@ -48,18 +48,18 @@ func DeleteAdminById(id uint) (err error) {
 		return errors.New("cannot delete super admin")
 	}
 
-	if err = DB.Delete(&User{}, id).Error; err != nil {
+	if err = DB.Delete(&Manager{}, id).Error; err != nil {
 		return err
 	}
 	return
 }
 
 // GetAdmins gets all admin users
-func GetAdmins() (users []User, err error) {
-	if err = DB.Find(&users).Error; err != nil {
-		return []User{}, err
+func GetAdmins() (managers []Manager, err error) {
+	if err = DB.Find(&managers).Error; err != nil {
+		return []Manager{}, err
 	}
-	return users, nil
+	return managers, nil
 }
 
 // CheckPassword checks whether the password is correct or not

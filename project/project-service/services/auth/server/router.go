@@ -69,7 +69,7 @@ func InitRouter() *gin.Engine {
 					// PUT    api/v1/admin/user/:id/password     | 修改用户密码
 					auth.PUT("user/:id/password", service.HandlerBind(&admin_service.ChangeUserPassword{}))
 					// DELETE api/v1/admin/user/:id              | 删除用户
-					auth.DELETE("user/:id", service.HandlerWithBindType(&admin_service.DeleteUser{}, service.BindUri))
+					auth.DELETE("user/:id", service.HandlerBindUri(&admin_service.DeleteUser{}))
 				}
 
 				super := admin.Group("")
@@ -77,10 +77,12 @@ func InitRouter() *gin.Engine {
 				{
 					// GET    api/v1/admin/managers                | 获取所有管理员列表
 					super.GET("managers", service.HandlerBind(&admin_service.GetAdmins{}))
+					// POST    api/v1/admin/managers                | 获取所有管理员列表
+					super.POST("manager", service.HandlerBind(&admin_service.Create{}))
 					// PUT    api/v1/admin/manager/:id/password    | 修改管理员密码
-					super.PUT("manager/:id/password", service.HandlerBind(&admin_service.ChangeAdminPassword{}))
+					super.PUT("manager/:id/password", service.HandlerWithBindType(&admin_service.ChangeAdminPassword{}, service.Bind|service.BindUri))
 					// DELETE api/v1/admin/manager/:id             | 删除管理员
-					super.DELETE("manager/:id", service.HandlerBind(&admin_service.ChangeAdminPassword{}))
+					super.DELETE("manager/:id", service.HandlerBindUri(&admin_service.DeleteAdmin{}))
 				}
 			}
 

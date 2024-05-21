@@ -8,7 +8,7 @@ import (
 
 type User struct {
 	// gorm.Model
-	ID        uint   `json:"id" gorm:"primaryKey"`
+	ID        uint   `json:"id" gorm:"primaryKey; autoIncrement"`
 	Username  string `json:"username" gorm:"uniqueIndex; not null"` // 用户名
 	Password  string `json:"-" gorm:"not null"`                     // 密码
 	Signature string `json:"signature"`                             // 用户个性签名

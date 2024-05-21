@@ -1,7 +1,10 @@
-import { Add, Delete, Edit } from "@suid/icons-material";
-import { Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
-import { Component, For, createSignal } from "solid-js";
+import { Add, Delete, Edit, Key, Password } from "@suid/icons-material";
+import { Chip, Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
+import { Component, For, Show, createSignal, onMount } from "solid-js";
 import CreateAdminModal from "../../../components/CreateAdminModal";
+import { createAsync, revalidate } from "@solidjs/router";
+import { getManagers } from "../../../lib/store";
+import { deleteManager } from "../../../lib/user";
 
 function createData(
   id: number,
@@ -10,7 +13,7 @@ function createData(
   return { id, username };
 }
 
-const rows = [
+const admins = [
   createData(1, "admin1"),
   createData(2, "admin2"),
   createData(3, "admin3"),
@@ -19,8 +22,16 @@ const rows = [
 ];
 
 const Account: Component = () => {
-  const showSignal = createSignal(true);
+  const showSignal = createSignal(false);
   const [show, setShow] = showSignal;
+
+  const managers = createAsync(() => getManagers());
+
+  const onDelete = (id: number) => {
+    deleteManager(id).then((res) => {
+      revalidate(getManagers.key);
+    })
+  }
 
   return <>
     <CreateAdminModal open={showSignal}/>
@@ -46,21 +57,26 @@ const Account: Component = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <For each={rows}>
-                {(row) => (
+              <For each={managers()}>
+                {(item) => (
                   <TableRow
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.id}
+                      {item.id}
                     </TableCell>
-                    <TableCell>{row.username}</TableCell>
+                    <TableCell>
+                      {item.username}
+                      <Show when={item.id == 1}>
+                        <Chip label="Super Admin" color="error" size="small" sx={{marginLeft: 2}}/>
+                      </Show>
+                      </TableCell>
                     <TableCell>
                       <ButtonGroup>
-                        <Button>
-                          <Edit />
+                        <Button disabled={item.id == 1}>
+                          <Key />
                         </Button>
-                        <Button>
+                        <Button onClick={() => onDelete(item.id)} disabled={item.id == 1}>
                           <Delete />
                         </Button>
                       </ButtonGroup>

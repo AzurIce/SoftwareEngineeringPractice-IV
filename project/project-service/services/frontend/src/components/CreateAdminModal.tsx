@@ -1,5 +1,8 @@
 import { Box, Button, Modal, TextField, Typography, useTheme } from "@suid/material"
 import { Signal, createSignal } from "solid-js"
+import { createManager } from "../lib/user"
+import { reload, revalidate } from "@solidjs/router"
+import { getManagers } from "../lib/store"
 
 export default function CreateAdminModal(props: { open: Signal<boolean> }) {
   const [open, setOpen] = props.open
@@ -9,7 +12,13 @@ export default function CreateAdminModal(props: { open: Signal<boolean> }) {
   const [password, setPassword] = createSignal("")
 
   const onSubmit = () => {
-    // TODO: send HTTP request
+    createManager(username(), password()).then((res) => {
+      revalidate(getManagers.key)
+      onCancel()
+    }).catch((err) => {
+      console.log(err)
+      // TODO: Alert
+    })
   }
 
   const onCancel = () => {

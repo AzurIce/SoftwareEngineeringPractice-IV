@@ -46,6 +46,14 @@ func (service *ChangeUserPassword) Handle(c *gin.Context) (any, error) {
 	return res, nil
 }
 
+// Admins
+
+type GetAdmins struct{}
+
+func (service *GetAdmins) Handle(c *gin.Context) (any, error) {
+	return models.GetAdmins()
+}
+
 type ChangeAdminPassword struct {
 	Id uint `uri:"id" binding:"required"`
 	Password string `form:"password"`
@@ -76,10 +84,4 @@ func (service *DeleteAdmin) Handle(c *gin.Context) (any, error) {
 	res := make(map[string]any)
 	res["msg"] = "admin delete success"
 	return res, nil
-}
-
-type GetAdmins struct{}
-
-func (service *GetAdmins) Handle(c *gin.Context) (any, error) {
-	return models.GetAdmins()
 }

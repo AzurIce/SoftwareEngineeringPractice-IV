@@ -57,7 +57,7 @@ export function post(url: string, data: any): Promise<any> {
   })
 }
 
-export function del(url: string, data: any): Promise<any> {
+export function del(url: string, data?: any): Promise<any> {
   return new Promise((resolve, reject) => {
     axios.delete(`${host}${url}`, {
       data: data,
