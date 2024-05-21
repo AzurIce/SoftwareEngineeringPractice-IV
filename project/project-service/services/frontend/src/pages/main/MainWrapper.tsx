@@ -1,10 +1,11 @@
 // import { Outlet, useNavigate } from '@solidjs/router';
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@suid/material';
-import HomeIcon from "@suid/icons-material/Home";
+import { AppBar, Button, Icon, IconButton, Toolbar, Typography } from '@suid/material';
+import { Home, Menu } from "@suid/icons-material";
 import { LoginInfoStore } from '../../lib/store';
 // import { Transition } from 'solid-transition-group';
 import { Component, createSignal, onMount } from 'solid-js';
 import { RouteSectionProps, useNavigate } from '@solidjs/router';
+import SideBar from '../../components/SideBar';
 // import AskSpark from '../../components/AskSpark';
 
 
@@ -16,54 +17,44 @@ const MainWrapper: Component<RouteSectionProps> = (props) => {
   onMount(() => {
     console.log("[MainWrapper]: onMount")
     if (!jwt()) {
-        navigate('/login');
+      navigate('/login');
     }
   })
 
   return (
-    // <Transition appear={true} onEnter={(el, done) => {
-    //   const a = el.animate([{ opacity: 0 }, { opacity: 1 }], {
-    //     duration: 200
-    //   });
-    //   a.finished.then(done);
-    // }}>
-    //   <AskSpark  open={submitModalOpen} setOpen={setSubmitModalOpen}/>
-      <div class='h-full w-full flex flex-col items-center'>
-        <AppBar position='sticky' sx={{ zIndex: 0 }}>
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-              onClick={() => navigate('/')}
-            >
-              <HomeIcon />
-            </IconButton>
+    <div class='h-full w-full flex flex-col items-center'>
+      <AppBar position='sticky' sx={{ zIndex: 0 }}>
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={() => navigate('/')}
+          >
+            <Menu />
+          </IconButton>
 
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              HomeworkPlatform
-            </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            共享单车管理后台
+          </Typography>
 
-            <Button color='inherit'  onClick={() => { setSubmitModalOpen(true); }}>
-              询问
-            </Button>
+          {/* <Button color='inherit' onClick={() => { setSubmitModalOpen(true); }}>
+            询问
+          </Button>
 
-            <Button color='inherit' onClick={() => navigate('/courses')}>
-              课程
-            </Button>
-            {/* TODO: change it according to the login state */}
-            {/* <Button color="inherit" onClick={() => {
-              localStorage.removeItem('jwt')
-              localStorage.removeItem('user')
-              navigate('/login')
-            }}>{loginInfo.user.username} Logout</Button> */}
+          <Button color='inherit' onClick={() => navigate('/courses')}>
+            课程
+          </Button> */}
 
-          </Toolbar>
-        </AppBar>
+        </Toolbar>
+      </AppBar>
+      <div class='flex-1 flex w-full'>
+        <SideBar />
         {props.children}
       </div>
+    </div>
     // </Transition>
   );
 }

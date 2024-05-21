@@ -1,12 +1,14 @@
 import { Route, Router } from '@solidjs/router';
 import type { Component } from 'solid-js';
 
-import Hello from "./pages/Hello";
 import Login from "./pages/Login";
-import MainWrapper from './pages/main/MainWrapper';
-import Main from './pages/main/Main';
+import Main from './pages/Main';
+import Hello from "./pages/Main/Hello";
+import MainWrapper from './pages/Main/MainWrapper';
 import NotFound from './pages/NotFound';
 import AlertList from './components/AlertList';
+import Bike from './pages/Main/Bike';
+import Account from './pages/Main/Account';
 
 const App: Component = () => {
   return <>
@@ -17,6 +19,8 @@ const App: Component = () => {
       <Route path="/" component={MainWrapper}>
         <Route path="/" component={Main}></Route>
         <Route path="/hello" component={Hello}></Route>
+        <Route path="/bike" component={Bike}></Route>
+        <Route path="/account" component={Account}></Route>
       </Route>
 
       <Route path="*404" component={NotFound}></Route>
