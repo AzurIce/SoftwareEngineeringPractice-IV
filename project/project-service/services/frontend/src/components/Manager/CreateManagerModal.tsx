@@ -1,8 +1,8 @@
 import { Box, Button, Modal, TextField, Typography, useTheme } from "@suid/material"
 import { Signal, createSignal } from "solid-js"
-import { createManager } from "../lib/user"
+import { createManager } from "../../lib/user"
 import { revalidate } from "@solidjs/router"
-import { getManagers } from "../lib/store"
+import { getManagers } from "../../lib/store"
 
 export default function CreateManagerModal(props: { open: Signal<boolean> }) {
   const [open, setOpen] = props.open

@@ -1,5 +1,5 @@
-import { Add, Delete, Edit, Search } from "@suid/icons-material";
-import { Button, ButtonGroup, Card, CardActions, CardContent, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
+import { Add, Delete, Edit } from "@suid/icons-material";
+import { Button, ButtonGroup, Card, CardActions, CardContent, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
 import { Component, For } from "solid-js";
 
 function createData(

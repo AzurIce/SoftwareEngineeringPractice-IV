@@ -1,27 +1,12 @@
-import { Add, Delete, Edit, Key, Password } from "@suid/icons-material";
+import { Add, Delete, Edit } from "@suid/icons-material";
 import { Chip, Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
-import { Component, For, Show, createSignal, onMount } from "solid-js";
-import CreateManagerModal from "../../../components/CreateManagerModal";
-import { createAsync, revalidate } from "@solidjs/router";
+import { Component, For, Show, createSignal } from "solid-js";
+import { createAsync } from "@solidjs/router";
 import { LoginInfoStore, Manager, getManagers } from "../../../lib/store";
-import { deleteManager } from "../../../lib/user";
-import UpdateManagerModal from "../../../components/UpdateManagerModal";
-import DeleteManagerModal from "../../../components/DeleteManagerModal";
 
-function createData(
-  id: number,
-  username: string,
-) {
-  return { id, username };
-}
-
-const admins = [
-  createData(1, "admin1"),
-  createData(2, "admin2"),
-  createData(3, "admin3"),
-  createData(4, "admin4"),
-  createData(5, "admin5"),
-];
+import CreateManagerModal from "../../../components/Manager/CreateManagerModal";
+import UpdateManagerModal from "../../../components/Manager/UpdateManagerModal";
+import DeleteManagerModal from "../../../components/Manager/DeleteManagerModal";
 
 const Account: Component = () => {
   const createShow = createSignal(false);
