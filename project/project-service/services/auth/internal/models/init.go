@@ -62,7 +62,7 @@ func generateData() {
 }
 
 func addDefaultUser() {
-	_, err := GetAdminById(1)
+	_, err := GetManagerById(1)
 
 	if err == gorm.ErrRecordNotFound {
 		password := utils.RandStringRunes(8)

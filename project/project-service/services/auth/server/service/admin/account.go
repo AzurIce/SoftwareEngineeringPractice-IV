@@ -4,6 +4,7 @@ import (
 	"auth/internal/jwt"
 	"auth/internal/models"
 	"errors"
+
 	// "log"
 
 	"github.com/gin-gonic/gin"
@@ -28,7 +29,7 @@ func (service *Login) Handle(c *gin.Context) (any, error) {
 		return nil, errors.New("password cannot be empty")
 	}
 
-	if user, err = models.GetAdminByUsername(service.Username); err == gorm.ErrRecordNotFound {
+	if user, err = models.GetManagerByUsername(service.Username); err == gorm.ErrRecordNotFound {
 		return nil, err
 	}
 
@@ -67,7 +68,7 @@ func (service *Create) Handle(c *gin.Context) (any, error) {
 		return nil, errors.New("password cannot be empty")
 	}
 
-	if _, err = models.GetAdminByUsername(service.Username); err != gorm.ErrRecordNotFound {
+	if _, err = models.GetManagerByUsername(service.Username); err != gorm.ErrRecordNotFound {
 		return nil, errors.New("username already exist")
 	}
 

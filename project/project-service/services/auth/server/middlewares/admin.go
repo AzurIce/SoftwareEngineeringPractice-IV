@@ -17,7 +17,7 @@ func AdminCheck() gin.HandlerFunc {
 			return
 		}
 
-		if _, err := models.GetAdminById(claims.ID); err == nil {
+		if _, err := models.GetManagerById(claims.ID); err == nil {
 			c.Next()
 			return
 		}

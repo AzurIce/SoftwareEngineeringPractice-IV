@@ -28,7 +28,7 @@ func (service *DeleteUser) Handle(c *gin.Context) (any, error) {
 }
 
 type ChangeUserPassword struct {
-	Id uint `uri:"id" binding:"required"`
+	Id       uint   `uri:"id" binding:"required"`
 	Password string `form:"password"`
 }
 
@@ -54,22 +54,23 @@ func (service *GetAdmins) Handle(c *gin.Context) (any, error) {
 	return models.GetAdmins()
 }
 
-type ChangeAdminPassword struct {
-	Id uint `uri:"id" binding:"required"`
+type UpdateAdmin struct {
+	Id       uint   `uri:"id" binding:"required"`
+	Username string `form:"username"`
 	Password string `form:"password"`
 }
 
-func (service *ChangeAdminPassword) Handle(c *gin.Context) (any, error) {
-	user, err := models.GetAdminById(service.Id)
+func (service *UpdateAdmin) Handle(c *gin.Context) (any, error) {
+	manager, err := models.GetManagerById(service.Id)
 	if err != nil {
 		return nil, errors.New("admin not exist")
 	}
-	if err := user.ChangePassword(service.Password); err != nil {
+	if err := manager.Update(service.Username, service.Password); err != nil {
 		return nil, err
 	}
 
 	res := make(map[string]any)
-	res["msg"] = "admin password update success"
+	res["msg"] = "manager update success"
 	return res, nil
 }
 
@@ -78,7 +79,7 @@ type DeleteAdmin struct {
 }
 
 func (service *DeleteAdmin) Handle(c *gin.Context) (any, error) {
-	if err := models.DeleteAdminById(service.ID); err != nil {
+	if err := models.DeleteManagerById(service.ID); err != nil {
 		return nil, err
 	}
 	res := make(map[string]any)

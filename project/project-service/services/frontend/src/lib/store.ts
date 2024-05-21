@@ -79,7 +79,7 @@ export const AlertsStore = () => {
   return { alerts, addAlert, delAlert, newErrorAlert, newWarningAlert, newInfoAlert, newSuccessAlert }
 }
 
-export type Admin = {
+export type Manager = {
   id: number,
   username: string,
 }

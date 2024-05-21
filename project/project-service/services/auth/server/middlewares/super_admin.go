@@ -17,7 +17,7 @@ func SuperAdminCheck() gin.HandlerFunc {
 			return
 		}
 
-		if admin, err := models.GetAdminById(claims.ID); err == nil && admin.IsSuperAdmin() {
+		if admin, err := models.GetManagerById(claims.ID); err == nil && admin.IsSuperAdmin() {
 			c.Next()
 			return
 		}

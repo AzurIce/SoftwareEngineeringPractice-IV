@@ -1,10 +1,10 @@
 import { Box, Button, Modal, TextField, Typography, useTheme } from "@suid/material"
 import { Signal, createSignal } from "solid-js"
 import { createManager } from "../lib/user"
-import { reload, revalidate } from "@solidjs/router"
+import { revalidate } from "@solidjs/router"
 import { getManagers } from "../lib/store"
 
-export default function CreateAdminModal(props: { open: Signal<boolean> }) {
+export default function CreateManagerModal(props: { open: Signal<boolean> }) {
   const [open, setOpen] = props.open
   const theme = useTheme()
 

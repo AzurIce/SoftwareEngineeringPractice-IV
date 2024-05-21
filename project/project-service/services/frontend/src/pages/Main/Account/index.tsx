@@ -1,10 +1,12 @@
 import { Add, Delete, Edit, Key, Password } from "@suid/icons-material";
 import { Chip, Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
 import { Component, For, Show, createSignal, onMount } from "solid-js";
-import CreateAdminModal from "../../../components/CreateAdminModal";
+import CreateManagerModal from "../../../components/CreateManagerModal";
 import { createAsync, revalidate } from "@solidjs/router";
-import { getManagers } from "../../../lib/store";
+import { LoginInfoStore, Manager, getManagers } from "../../../lib/store";
 import { deleteManager } from "../../../lib/user";
+import UpdateManagerModal from "../../../components/UpdateManagerModal";
+import DeleteManagerModal from "../../../components/DeleteManagerModal";
 
 function createData(
   id: number,
@@ -22,19 +24,20 @@ const admins = [
 ];
 
 const Account: Component = () => {
-  const showSignal = createSignal(false);
-  const [show, setShow] = showSignal;
+  const createShow = createSignal(false);
+  const [getCreateShow, setCreateShow] = createShow;
+  const updateTarget = createSignal<Manager | undefined>();
+  const [getUpdateTarget, setUpdateTarget] = updateTarget;
+  const deleteTarget = createSignal<Manager | undefined>();
+  const [getDeleteTarget, setDeleteTarget] = deleteTarget;
 
   const managers = createAsync(() => getManagers());
-
-  const onDelete = (id: number) => {
-    deleteManager(id).then((res) => {
-      revalidate(getManagers.key);
-    })
-  }
+  const { user } = LoginInfoStore();
 
   return <>
-    <CreateAdminModal open={showSignal}/>
+    <CreateManagerModal open={createShow} />
+    <UpdateManagerModal target={updateTarget} />
+    <DeleteManagerModal target={deleteTarget} />
 
     <div class="m-4 w-full flex flex-col gap-4">
       <Paper sx={{
@@ -45,7 +48,7 @@ const Account: Component = () => {
       }}>
         <Typography variant="h6">管理员列表</Typography>
         <ButtonGroup>
-          <Button onClick={() => { setShow(true) }}>添加管理员账号<Add /></Button>
+          <Button onClick={() => { setCreateShow(true) }}>添加管理员账号<Add /></Button>
         </ButtonGroup>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -66,17 +69,21 @@ const Account: Component = () => {
                       {item.id}
                     </TableCell>
                     <TableCell>
-                      {item.username}
+                      <span class="text-md">{item.username}</span>
                       <Show when={item.id == 1}>
-                        <Chip label="Super Admin" color="error" size="small" sx={{marginLeft: 2}}/>
+                        <Chip label="Super Admin" color="error" size="small" sx={{ marginLeft: 1 }} />
                       </Show>
-                      </TableCell>
+                      <Show when={item.id == user()?.id}>
+                        <Chip label="You" color="primary" size="small" sx={{ marginLeft: 1 }} />
+                      </Show>
+
+                    </TableCell>
                     <TableCell>
                       <ButtonGroup>
-                        <Button disabled={item.id == 1}>
-                          <Key />
+                        <Button onClick={() => setUpdateTarget(item)} disabled={item.id == 1 || user()?.id != 1}>
+                          <Edit />
                         </Button>
-                        <Button onClick={() => onDelete(item.id)} disabled={item.id == 1}>
+                        <Button onClick={() => setDeleteTarget(item)} disabled={item.id == 1 || user()?.id != 1}>
                           <Delete />
                         </Button>
                       </ButtonGroup>

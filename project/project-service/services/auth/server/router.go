@@ -75,13 +75,13 @@ func InitRouter() *gin.Engine {
 				super := admin.Group("")
 				super.Use(middlewares.JWTAuth()).Use(middlewares.SuperAdminCheck())
 				{
-					// GET    api/v1/admin/managers                | 获取所有管理员列表
+					// GET    api/v1/admin/managers               | 获取所有管理员列表
 					super.GET("managers", service.HandlerBind(&admin_service.GetAdmins{}))
-					// POST    api/v1/admin/managers                | 获取所有管理员列表
+					// POST    api/v1/admin/managers              | 获取所有管理员列表
 					super.POST("manager", service.HandlerBind(&admin_service.Create{}))
-					// PUT    api/v1/admin/manager/:id/password    | 修改管理员密码
-					super.PUT("manager/:id/password", service.HandlerWithBindType(&admin_service.ChangeAdminPassword{}, service.Bind|service.BindUri))
-					// DELETE api/v1/admin/manager/:id             | 删除管理员
+					// PUT    api/v1/admin/manager/:id            | 修改管理员信息
+					super.PUT("manager/:id", service.HandlerWithBindType(&admin_service.UpdateAdmin{}, service.Bind|service.BindUri))
+					// DELETE api/v1/admin/manager/:id            | 删除管理员
 					super.DELETE("manager/:id", service.HandlerBindUri(&admin_service.DeleteAdmin{}))
 				}
 			}

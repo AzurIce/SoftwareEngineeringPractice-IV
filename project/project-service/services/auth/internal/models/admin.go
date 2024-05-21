@@ -23,8 +23,8 @@ func CreateAdmin(username string, password string) (*Manager, error) {
 	return &user, nil
 }
 
-// GetAdminById gets the admin user corresponding to the given id
-func GetAdminById(id uint) (*Manager, error) {
+// GetManagerById gets the admin user corresponding to the given id
+func GetManagerById(id uint) (*Manager, error) {
 	var manager Manager
 	if err := DB.First(&manager, id).Error; err != nil {
 		return nil, err
@@ -32,8 +32,8 @@ func GetAdminById(id uint) (*Manager, error) {
 	return &manager, nil
 }
 
-// GetAdminByUsername gets the admin user corresponding to the given username
-func GetAdminByUsername(username string) (*Manager, error) {
+// GetManagerByUsername gets the admin user corresponding to the given username
+func GetManagerByUsername(username string) (*Manager, error) {
 	var manager Manager
 	if err := DB.Where("username = ?", username).First(&manager).Error; err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func GetAdminByUsername(username string) (*Manager, error) {
 }
 
 // DeleteAmdinById deletes the admin user corresponding to the given id
-func DeleteAdminById(id uint) (err error) {
+func DeleteManagerById(id uint) (err error) {
 	// Forbid deleting super admin
 	if id == 1 {
 		return errors.New("cannot delete super admin")
@@ -71,9 +71,36 @@ func (user *Manager) CheckPassword(password string) bool {
 // ChangePassword changes password
 func (user *Manager) ChangePassword(password string) error {
 	if len(password) == 0 {
-		return errors.New("密码不能为空")
+		return errors.New("password cannot be empty")
 	}
 	if err := DB.Model(user).Updates(Manager{Password: utils.EncodePassword(password, utils.RandStringRunes(16))}).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+// ChangePassword changes password
+func (user *Manager) ChangeUsername(username string) error {
+	if len(username) == 0 {
+		return errors.New("username cannot be empty")
+	}
+	if err := DB.Model(user).Updates(Manager{Username: username}).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (user *Manager) Update(username string, password string) error {
+	if len(password) == 0 {
+		return errors.New("password cannot be empty")
+	}
+	if len(username) == 0 {
+		return errors.New("username cannot be empty")
+	}
+	if err := DB.Model(user).Updates(Manager{
+		Username: username,
+		Password: utils.EncodePassword(password, utils.RandStringRunes(16)),
+	}).Error; err != nil {
 		return err
 	}
 	return nil
