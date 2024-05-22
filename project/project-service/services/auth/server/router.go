@@ -29,6 +29,7 @@ func InitRouter() *gin.Engine {
 	{
 		v1 := api.Group("v1")
 		{
+			v1.POST("auth", service.HandlerBind(&service.Auth{}))
 			// No login required
 			user := v1.Group("user")
 			{

@@ -34,9 +34,6 @@ func HandlerWithBindType(s Service, bindType int) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var err error
 
-		// Binding using an auto-selected binding engine
-		// "application/json" --> JSON binding
-		// "application/xml"  --> XML binding
 		if bindType&BindUri != 0 {
 			if err = c.ShouldBindUri(s); err != nil {
 				log.Printf("[Handler/BindUri]: Failed to bind: %v\n", err)
@@ -44,6 +41,9 @@ func HandlerWithBindType(s Service, bindType int) gin.HandlerFunc {
 				return
 			}
 		}
+		// Binding using an auto-selected binding engine
+		// "application/json" --> JSON binding
+		// "application/xml"  --> XML binding
 		if bindType&Bind != 0 {
 			if err = c.ShouldBind(s); err != nil {
 				log.Printf("[Handler/Bind]: Failed to bind: %v\n", err)
