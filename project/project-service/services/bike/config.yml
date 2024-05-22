@@ -1,0 +1,2 @@
+sql_dsn: postgres://azurice:@127.0.0.1:5432/bike
+auth_url: http://localhost:80/api/v1/auth
