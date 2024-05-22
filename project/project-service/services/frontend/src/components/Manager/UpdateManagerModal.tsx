@@ -1,6 +1,6 @@
 import { Box, Button, Modal, TextField, Typography, useTheme } from "@suid/material"
 import { Signal, createEffect, createSignal } from "solid-js"
-import { updateManager } from "../../lib/user"
+import { updateManager } from "../../lib/axios/auth"
 import { revalidate } from "@solidjs/router"
 import { Manager, getManagers } from "../../lib/store"
 

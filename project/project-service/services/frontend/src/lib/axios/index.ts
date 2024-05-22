@@ -1,11 +1,15 @@
 import axios from 'axios'
 
-const host = 'http://127.0.0.1:80/api'
 
-export function get(url: string, options?: any): Promise<any> {
+export enum Service {
+  Auth = 'http://127.0.0.1:80/api',
+  Bike = 'http://127.0.0.1:81/api'
+}
+
+export function get(service: Service, url: string, options?: any): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${host}${url}`, {
+      .get(`${service}${url}`, {
         ...options,
         timeout: 3000,
         headers: {
@@ -22,10 +26,10 @@ export function get(url: string, options?: any): Promise<any> {
   })
 }
 
-export function put(url: string, data: any): Promise<any> {
+export function put(service: Service, url: string, data: any): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
-      .put(`${host}${url}`, data, {
+      .put(`${service}${url}`, data, {
         timeout: 3000,
         headers: {
           Authorization: `Bearer ${window.localStorage.getItem('jwt')}`,
@@ -41,9 +45,9 @@ export function put(url: string, data: any): Promise<any> {
   });
 }
 
-export function post(url: string, data: any): Promise<any> {
+export function post(service: Service, url: string, data: any): Promise<any> {
   return new Promise((resolve, reject) => {
-    axios.post(`${host}${url}`, data, {
+    axios.post(`${service}${url}`, data, {
       timeout: 3000,
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem('jwt')}`,
@@ -57,9 +61,9 @@ export function post(url: string, data: any): Promise<any> {
   })
 }
 
-export function del(url: string, data?: any): Promise<any> {
+export function del(service: Service, url: string, data?: any): Promise<any> {
   return new Promise((resolve, reject) => {
-    axios.delete(`${host}${url}`, {
+    axios.delete(`${service}${url}`, {
       data: data,
       timeout: 3000,
       headers: {
@@ -75,9 +79,9 @@ export function del(url: string, data?: any): Promise<any> {
       });
   });
 }
-export function postFormData(url: string, data: FormData): Promise<any> {
+export function postFormData(service: Service, url: string, data: FormData): Promise<any> {
   return new Promise((resolve, reject) => {
-    axios.post(`${host}${url}`, data, {
+    axios.post(`${service}${url}`, data, {
       timeout: 3000,
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem('jwt')}`,
@@ -93,9 +97,9 @@ export function postFormData(url: string, data: FormData): Promise<any> {
   })
 }
 
-export function putFormData(url: string, data: FormData): Promise<any> {
+export function putFormData(service: Service, url: string, data: FormData): Promise<any> {
   return new Promise((resolve, reject) => {
-    axios.put(`${host}${url}`, data, {
+    axios.put(`${service}${url}`, data, {
       timeout: 3000,
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem('jwt')}`,

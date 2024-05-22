@@ -1,25 +1,27 @@
-import { get, post, del, put } from '../axios'
-import { Manager as Manager } from '../store'
+import { get, post, del, put, Service } from '..'
+import { Manager } from '../../store'
+
+const service = Service.Auth
 
 export function login(username: string, password: string) {
-  return post(`/v1/admin/login`, { username, password })
+  return post(service, `/v1/admin/login`, { username, password })
 }
 
 // Managers
 export function createManager(username: string, password: string) {
-  return post(`/v1/admin/manager`, { username, password })
+  return post(service, `/v1/admin/manager`, { username, password })
 }
 
 export function updateManager(id: number, username: string, password: string) {
-  return put(`/v1/admin/manager/${id}`, {username, password})
+  return put(service, `/v1/admin/manager/${id}`, {username, password})
 }
 
 export function getManagers(): Promise<Manager[]>{
   console.log("axios:getManagers")
-  return get(`/v1/admin/managers`)
+  return get(service, `/v1/admin/managers`)
 }
 
 export function deleteManager(id: number): Promise<Manager[]>{
   console.log("axios:deleteManager")
-  return del(`/v1/admin/manager/${id}`)
+  return del(service, `/v1/admin/manager/${id}`)
 }

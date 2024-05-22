@@ -1,6 +1,10 @@
 import { Add, Delete, Edit } from "@suid/icons-material";
-import { Button, ButtonGroup, Card, CardActions, CardContent, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
-import { Component, For } from "solid-js";
+import { Button, ButtonGroup, Card, CardActions, CardContent, CardMedia, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
+import { Component, For, createSignal } from "solid-js";
+import { Area, getAreas } from "../../../lib/store";
+import { createAsync, useNavigate } from "@solidjs/router";
+import Mapbox from "../../../components/Mapbox";
+import { calcZoom } from "../../../lib/utils";
 
 function createData(
   id: number,
@@ -19,7 +23,10 @@ const rows = [
   createData(5, new Date(2024, 4, 21), 45.6, 87.3),
 ];
 
-function BasicCard() {
+const BasicCard: Component<{ area: Area }> = (props: { area: Area }) => {
+  const { area } = props;
+  const navigate = useNavigate();
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -27,10 +34,11 @@ function BasicCard() {
           id
         </Typography> */}
         <Typography variant="h5" component="div">
-          骑行区名称
+          {area.name}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          N 24°45'16.1" E 098°02'43.8"
+          latitude: {area.latitude}, <br/>
+          longitude: {area.longitude}
         </Typography>
         <div class="flex flex-col">
           <div class="flex gap-2 text-sm">
@@ -39,14 +47,19 @@ function BasicCard() {
           </div>
         </div>
       </CardContent>
+      <CardMedia sx={{ width: 150, height: 150 }}>
+        <Mapbox center={{lng: area.longitude, lat: area.latitude}} pointsSignal={createSignal(area.points)} zoom={calcZoom(area.points)}/>
+      </CardMedia>
       <CardActions>
-        <Button size="small">进入</Button>
+        <Button size="small" onClick={() => { navigate(`/bike/area/${area.id}`) }}>进入</Button>
       </CardActions>
     </Card>
   );
 }
 
 const Bike: Component = () => {
+  const areas = createAsync(() => getAreas());
+
   return <>
     <div class="m-4 w-full flex flex-col gap-4">
       <Paper sx={{
@@ -60,13 +73,11 @@ const Bike: Component = () => {
           <Button>创建骑行区<Add /></Button>
         </ButtonGroup>
         <div class="flex flex-wrap gap-4">
-          <BasicCard />
-          <BasicCard />
-          <BasicCard />
-          <BasicCard />
-          <BasicCard />
-          <BasicCard />
-          <BasicCard />
+          <For each={areas()}>
+            {(area) => (
+              <BasicCard area={area} />
+            )}
+          </For>
         </div>
       </Paper>
 

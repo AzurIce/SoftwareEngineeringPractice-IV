@@ -25,11 +25,32 @@
 
 ## 骑行区（围栏）
 
-骑行区，以若干经纬点坐标围成的一个封闭区域。
+```go
+type Point struct {
+	ID        uint    `json:"id" gorm:"primaryKey; autoIncrement"`
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+	AreaId    int     `json:"-"`
+}
+
+type Area struct {
+	ID     uint    `json:"id" gorm:"primaryKey; autoIncrement"`
+	Name   string  `json:"name" gorm:"uniqueIndex; not null"`
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+	Points []Point `json:"points"`
+}
+```
+
+骑行区，以若干经纬点坐标逆时针围成的一个封闭区域。
+
+
+
+以多边形的中点作为骑行区的坐标（简单的平均）
+
+
 
 一个单车仅能属于一个骑行区，一个骑行区内多辆单车。
-
-
 
 对于骑出围栏的单车，我们显然并不能强制其关锁（安全问题），换言之，即便设置了围栏，我们也没有任何办法阻止单车骑出围栏。
 
@@ -43,6 +64,10 @@
 
 - 单车可能最终停在不属于任何骑行区的区域（不关锁）
 - 单车可能最终停在另一骑行区（不关锁）
+
+
+
+
 
 
 

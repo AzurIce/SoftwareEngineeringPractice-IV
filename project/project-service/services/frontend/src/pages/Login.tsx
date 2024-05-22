@@ -1,7 +1,7 @@
 import { A, useNavigate } from "@solidjs/router";
 import { Box, Button, TextField } from "@suid/material";
 import { Component, createSignal } from "solid-js";
-import { login } from "../lib/user";
+import { login } from "../lib/axios/auth";
 import { AlertsStore, LoginInfoStore } from "../lib/store";
 
 const Login: Component = () => {
