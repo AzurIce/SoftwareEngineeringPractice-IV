@@ -52,5 +52,5 @@ func deleteData() {
 }
 
 func Migrate() {
-	DB.AutoMigrate(&Area{}, &Point{})
+	DB.AutoMigrate(&Area{}, &Point{}, &Bike{})
 }
