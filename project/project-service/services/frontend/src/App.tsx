@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound';
 import AlertList from './components/AlertList';
 import Bike from './pages/Main/Bike';
 import Account from './pages/Main/Account';
+import Area from './pages/Main/Bike/Area';
 
 const App: Component = () => {
   return <>
@@ -19,7 +20,10 @@ const App: Component = () => {
       <Route path="/" component={MainWrapper}>
         <Route path="/" component={Main}></Route>
         <Route path="/hello" component={Hello}></Route>
-        <Route path="/bike" component={Bike}></Route>
+        <Route path="/bike">
+          <Route path="/" component={Bike}></Route>
+          <Route path="/area/:id" component={Area}></Route>
+        </Route>
         <Route path="/account" component={Account}></Route>
       </Route>
 

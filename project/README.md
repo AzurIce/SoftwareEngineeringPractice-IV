@@ -23,6 +23,17 @@
 
 ---
 
+```mermaid
+erDiagram
+    AREA ||--o{ POINT : contains
+    AREA ||--o{ BIKE : contains
+
+```
+
+
+
+
+
 ## 骑行区（围栏）
 
 ```go

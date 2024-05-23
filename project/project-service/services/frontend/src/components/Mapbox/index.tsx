@@ -1,27 +1,44 @@
-import { Component, Signal, createEffect, createSignal, createUniqueId, onMount } from "solid-js";
+import { Accessor, Component, Signal, createEffect, createSignal, createUniqueId, onMount } from "solid-js";
 
-import mapboxgl, { LngLatLike }  from 'mapbox-gl';
+import mapboxgl, { LngLatLike } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Feature, Polygon } from "geojson";
 import { LngLat } from "../../lib/store";
 
 type MapBoxProps = {
   pointsSignal?: Signal<LngLat[]>,
-  center?: LngLat,
-  zoom?: number,
+  center?: Accessor<LngLat>,
+  zoom?: Accessor<number>,
+  disableInteract?: Accessor<boolean>
 }
 
 const Mapbox: Component<MapBoxProps> = (props: MapBoxProps) => {
   let id = createUniqueId();
   let map: mapboxgl.Map | undefined = undefined;
-  let center: LngLatLike = props.center ? props.center : [116.33743, 39.94977];
-  let zoom = props.zoom != undefined ? props.zoom : 14;
+  let center: Accessor<LngLatLike> = props.center ? props.center : () => [116.33743, 39.94977];
+  let zoom: Accessor<number> = props.zoom != undefined ? props.zoom : () => 14;
+  let disableInteract: Accessor<boolean> = props.disableInteract ? props.disableInteract : () => false;
 
 
   // let [points, setPoints] = createSignal<{ lng: number, lat: number }[]>([]);
   const [points, setPoints] = props.pointsSignal ? props.pointsSignal : createSignal<LngLat[]>([]);
+  // createEffect(() => {
+  //   console.log(points())
+  // })
+
   createEffect(() => {
-    console.log(points())
+    const currentCenter = center();
+    if (map != undefined) {
+      console.log(`center: ${currentCenter}`)
+      map.setCenter(currentCenter)
+    }
+  })
+  createEffect(() => {
+    const currentZoom = zoom();
+    if (map != undefined) {
+      console.log(`zoom: ${currentZoom}`)
+      map.setZoom(currentZoom)
+    }
   })
 
   const [addMode, setAddMode] = createSignal(false);
@@ -51,8 +68,16 @@ const Mapbox: Component<MapBoxProps> = (props: MapBoxProps) => {
     let _map = new mapboxgl.Map({
       container: id, // container ID
       style: 'mapbox://styles/mapbox/streets-v12', // style URL
-      center, // starting position [lng, lat]
-      zoom, // starting zoom
+      center: center(), // starting position [lng, lat]
+      zoom: zoom(), // starting zoom
+      doubleClickZoom: !disableInteract(),
+      dragPan: !disableInteract(),
+      dragRotate: !disableInteract(),
+      scrollZoom: !disableInteract(),
+      touchPitch: !disableInteract(),
+      touchZoomRotate: !disableInteract(),
+      boxZoom: !disableInteract(),
+      keyboard: !disableInteract(),
     });
 
     _map.on('click', (e) => {

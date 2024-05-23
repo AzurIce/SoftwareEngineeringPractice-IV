@@ -20,7 +20,7 @@ export function capitalizeFirstLetter(input: string): string {
   return input.charAt(0).toUpperCase() + input.slice(1);
 }
 
-export function calcZoom(points: LngLat[]) {
+export function calcZoom(points: LngLat[], pixel: number) {
   let sumLng = 0;
   let sumLat = 0;
   for (const point of points) {
@@ -59,7 +59,7 @@ export function calcZoom(points: LngLat[]) {
     }
   }
 
-  return calcZoomLevel(center.lat, maxDistance);
+  return calcZoomLevel(center.lat, maxDistance, pixel);
 }
 
 interface ZoomLevels {
@@ -92,7 +92,7 @@ const zoomLevels: ZoomLevels = {
   22: [0.019, 0.018, 0.014, 0.009, 0.003],
 };
 
-function calcZoomLevel(_latitude: number, radiusMeters: number): number {
+function calcZoomLevel(_latitude: number, radiusMeters: number, pixel: number): number {
   let index: number;
   let latitude = Math.abs(_latitude);
 
@@ -118,14 +118,14 @@ function calcZoomLevel(_latitude: number, radiusMeters: number): number {
     // const diff = Math.abs(radiusMeters - metersPerPixel * pixelRadius);
 
     // Check if the current zoom level is suitable
-    console.log(metersPerPixel)
-    console.log(radiusMeters)
-    if (metersPerPixel * 150 <= radiusMeters * 2) {
+    // console.log(metersPerPixel)
+    // console.log(radiusMeters)
+    if (metersPerPixel * pixel <= radiusMeters * 2) {
       break;
     }
     bestZoom = zoomLevel;
   }
 
-  console.log(bestZoom!)
+  // console.log(bestZoom!)
   return bestZoom!;
 }

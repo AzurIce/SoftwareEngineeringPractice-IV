@@ -52,7 +52,9 @@ const MainWrapper: Component<RouteSectionProps> = (props) => {
       </AppBar>
       <div class='flex-1 flex w-full'>
         <SideBar />
-        {props.children}
+        <div class="m-4 w-full flex flex-col gap-4">
+          {props.children}
+        </div>
       </div>
     </div>
     // </Transition>
