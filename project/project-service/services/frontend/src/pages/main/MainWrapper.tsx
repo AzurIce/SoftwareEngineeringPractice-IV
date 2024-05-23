@@ -23,7 +23,7 @@ const MainWrapper: Component<RouteSectionProps> = (props) => {
 
   return (
     <div class='h-full w-full flex flex-col items-center'>
-      <AppBar position='sticky' sx={{ zIndex: 0 }}>
+      <AppBar position='sticky' sx={{ zIndex: 7 }}>
         <Toolbar>
           <IconButton
             size="large"

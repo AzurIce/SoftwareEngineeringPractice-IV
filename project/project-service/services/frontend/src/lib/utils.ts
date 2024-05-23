@@ -109,7 +109,7 @@ function calcZoomLevel(_latitude: number, radiusMeters: number): number {
   }
 
   let bestZoom: number | null = 0;
-  let minDiff: number = Number.MAX_VALUE;
+  // let minDiff: number = Number.MAX_VALUE;
 
   for (let zoom in zoomLevels) {
     const zoomLevel = parseInt(zoom);
