@@ -3,21 +3,21 @@ package models
 import "errors"
 
 type Point struct {
-	ID     uint    `json:"id" gorm:"primaryKey; autoIncrement"`
-	Lat    float64 `json:"lat"`
-	Lng    float64 `json:"lng"`
+	ID  uint    `json:"id" gorm:"primaryKey; autoIncrement"`
+	Lat float64 `json:"lat"`
+	Lng float64 `json:"lng"`
 
-	AreaId int     `json:"-"`
+	AreaId int `json:"-"`
 }
 
 type Area struct {
-	ID     uint    `json:"id" gorm:"primaryKey; autoIncrement"`
-	Name   string  `json:"name" gorm:"uniqueIndex; not null"`
-	Lat    float64 `json:"lat"`
-	Lng    float64 `json:"lng"`
+	ID   uint    `json:"id" gorm:"primaryKey; autoIncrement"`
+	Name string  `json:"name" gorm:"uniqueIndex; not null"`
+	Lat  float64 `json:"lat"`
+	Lng  float64 `json:"lng"`
 
-	Points []Point `json:"points"`
-	Bikes  []Bike  `json:"bikes"`
+	Points []Point `json:"points" gorm:"constraint:OnDelete:CASCADE"`
+	Bikes  []Bike  `json:"bikes" gorm:"constraint:OnDelete:CASCADE"`
 }
 
 func CreateArea(name string, points []Point) (*Area, error) {

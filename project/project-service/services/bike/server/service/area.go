@@ -52,6 +52,22 @@ func (service *GetArea) Handle(c *gin.Context) (any, error) {
 	return area, nil
 }
 
+type DeleteArea struct {
+	ID uint `uri:"id" binding:"required"`
+}
+
+func (service *DeleteArea) Handle(c *gin.Context) (any, error) {
+	var area models.Area
+	var err error
+
+	if err = models.DB.Model(&models.Area{}).Delete(&area, service.ID).Error; err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+
+}
+
 type AreaGetBikes struct {
 	ID uint `uri:"id" binding:"required"`
 }

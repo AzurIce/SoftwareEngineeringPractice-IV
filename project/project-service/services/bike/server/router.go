@@ -32,6 +32,7 @@ func InitRouter() *gin.Engine {
 			v1.GET("areas", service.HandlerNoBind(&service.GetAreas{}))
 			v1.POST("area", service.HandlerBind(&service.CreateArea{}))
 			v1.GET("area/:id", service.HandlerBindUri(&service.GetArea{}))
+			v1.DELETE("area/:id", service.HandlerBindUri(&service.DeleteArea{}))
 
 			v1.GET("area/:id/bikes", service.HandlerBindUri(&service.AreaGetBikes{}))
 			v1.POST("area/:id/bike", service.HandlerWithBindType(&service.AreaAddBike{}, service.BindUri|service.Bind))
