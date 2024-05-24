@@ -16,12 +16,7 @@ const AreaCard: Component<{ area: Area }> = (props: { area: Area }) => {
   return <>
     <Card sx={{ minWidth: 275, display: "flex" }}>
       <CardContent>
-        {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          id
-        </Typography> */}
-        <Typography variant="h5" component="div">
-          {area.name}
-        </Typography>
+        <span class="text-lg font-bold">{area.name}</span>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           latitude: {area.lat}, <br />
           longitude: {area.lng}
