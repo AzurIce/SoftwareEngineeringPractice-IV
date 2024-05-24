@@ -1,20 +1,17 @@
 import { createAsync, useNavigate, useParams } from "@solidjs/router";
 import { Component, For, Show, createSignal } from "solid-js";
-import { getAreaBikes, getAreaById } from "../../../lib/axios/bike";
-import { Box, Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
-import { Add, Delete, Edit } from "@suid/icons-material";
-import Mapbox from "../../../components/Mapbox";
-import { calcZoom } from "../../../lib/utils";
+import { Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
+import { Add, Edit } from "@suid/icons-material";
 import AreaAddBikeModal from "../../../components/Bike/AreaAddBikeModal";
-import AreaPreview from "../../../components/Mapbox/AreaPreview";
 import AreaView from "../../../components/Mapbox/AreaView";
 import { DeleteAreaButton } from "../../../components/Area";
+import { getArea } from "../../../lib/store";
 
 const Area: Component = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const area = createAsync(() => getAreaById(parseInt(params.id)));
+  const area = createAsync(() => getArea(parseInt(params.id)));
   const targetAreaIdSignal = createSignal<number | undefined>()
   const [targetAreaId, setTargetAreaId] = targetAreaIdSignal;
 
