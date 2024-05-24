@@ -1,6 +1,8 @@
 package models
 
-import "errors"
+import (
+	"errors"
+)
 
 type Point struct {
 	ID  uint    `json:"id" gorm:"primaryKey; autoIncrement"`
@@ -24,7 +26,12 @@ func CreateArea(name string, points []Point) (*Area, error) {
 	if len(points) < 3 {
 		return nil, errors.New("points must be more than 3")
 	}
-	area := Area{Name: name, Points: points}
+
+	// log.Println(points)
+	// to avoid reusing points, which has previous AreaID
+	newPoints := make([]Point, len(points))
+	copy(newPoints, points)	
+	area := Area{Name: name, Points: newPoints}
 
 	for _, point := range points {
 		area.Lat += point.Lat
