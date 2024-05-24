@@ -9,6 +9,7 @@ type MapBoxProps = {
   pointsSignal?: Signal<LngLat[]>,
   center?: Accessor<LngLat>,
   zoom?: Accessor<number>,
+  addMode?: Accessor<boolean>
   disableInteract?: Accessor<boolean>
 }
 
@@ -41,7 +42,8 @@ const Mapbox: Component<MapBoxProps> = (props: MapBoxProps) => {
     }
   })
 
-  const [addMode, setAddMode] = createSignal(false);
+  // const [addMode, setAddMode] = createSignal(false);
+  const addMode = props.addMode ? props.addMode : () => false;
 
   let geoJsonData = () => {
     return {

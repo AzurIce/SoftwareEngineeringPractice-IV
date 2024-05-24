@@ -20,7 +20,6 @@ const Area: Component = () => {
 
   const onEdit = () => { }
 
-
   return <>
     <AreaAddBikeModal targetAreaId={targetAreaIdSignal} />
     <Paper sx={{

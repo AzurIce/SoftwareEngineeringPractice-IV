@@ -4,6 +4,7 @@ import { Component, For, createSignal } from "solid-js";
 import { Area, getAreas } from "../../../lib/store";
 import { createAsync, useNavigate } from "@solidjs/router";
 import AreaCard from "../../../components/Area/AreaCard";
+import CreateAreaModal from "../../../components/Area/CreateAreaModal";
 
 function createData(
   id: number,
@@ -25,7 +26,11 @@ const rows = [
 const Bike: Component = () => {
   const areas = createAsync(() => getAreas());
 
+  const createAreaModalSignal = createSignal(false);
+  const [createAreaModalOpen, setCreateAraeModalOpen] = createAreaModalSignal;
+
   return <>
+    <CreateAreaModal open={createAreaModalSignal} />
       <Paper sx={{
         padding: 2,
         display: "flex",
@@ -34,7 +39,7 @@ const Bike: Component = () => {
       }}>
         <Typography variant="h6">骑行区</Typography>
         <ButtonGroup>
-          <Button>创建骑行区<Add /></Button>
+          <Button onClick={() => setCreateAraeModalOpen(true)}>创建骑行区<Add /></Button>
         </ButtonGroup>
         <div class="flex flex-wrap gap-4">
           <For each={areas()}>

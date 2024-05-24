@@ -13,12 +13,6 @@ const AreaCard: Component<{ area: Area }> = (props: { area: Area }) => {
     navigate(`/bike/area/${area.id}`)
   }
 
-  const deleteAreaSignal = createSignal<Area | undefined>()
-  const [deleteArea, setDeleteArea] = deleteAreaSignal;
-  const onDelete = (area: Area) => {
-    setDeleteArea(area);
-  }
-
   return <>
     <Card sx={{ minWidth: 275, display: "flex" }}>
       <CardContent>
@@ -46,7 +40,6 @@ const AreaCard: Component<{ area: Area }> = (props: { area: Area }) => {
         <div class="flex flex-col items-center">
           <Button onClick={() => onEnter(area)}>进入</Button>
           <DeleteAreaButton target={() => area} then={() => navigate(`/bike`)} />
-          <Button color="error" onClick={() => onDelete(area)}>删除</Button>
         </div>
       </CardActions>
     </Card>

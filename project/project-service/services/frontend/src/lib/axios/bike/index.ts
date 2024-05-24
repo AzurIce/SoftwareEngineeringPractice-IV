@@ -1,8 +1,13 @@
 
 import { get, post, del, put, Service } from '..'
-import { Area, Bike } from '../../store'
+import { Area, Bike, LngLat } from '../../store'
 
 const service = Service.Bike
+
+export function createArea(name: string, points: LngLat[]): Promise<void> {
+  console.log(`axios:createArea(${name}, ${points})`)
+  return post(service, `/v1/area`, { name, points })
+}
 
 export function getAllAreas(): Promise<Area[]>{
   console.log("axios:getAreas")
