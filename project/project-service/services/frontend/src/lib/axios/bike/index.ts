@@ -14,6 +14,11 @@ export function getAreaById(id: number): Promise<Area>{
   return get(service, `/v1/area/${id}`)
 }
 
+export function deleteAreaById(id: number): Promise<void> {
+  console.log(`axios:deleteAreaById(${id})`)
+  return del(service, `/v1/area/${id}`)
+}
+
 export function areaAddBike(areaId: number, uid: number, lng: number, lat: number): Promise<any>{
   console.log(`axios:areaAddBike(${areaId}, <${uid}, ${lng}, ${lat}>)`)
   return post(service, `/v1/area/${areaId}/bike`, { uid, lng, lat })

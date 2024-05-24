@@ -21,7 +21,7 @@ export function getManagers(): Promise<Manager[]>{
   return get(service, `/v1/admin/managers`)
 }
 
-export function deleteManager(id: number): Promise<Manager[]>{
+export function deleteManager(id: number): Promise<void>{
   console.log("axios:deleteManager")
   return del(service, `/v1/admin/manager/${id}`)
 }

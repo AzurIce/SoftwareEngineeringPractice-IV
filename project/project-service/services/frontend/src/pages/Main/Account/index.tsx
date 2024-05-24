@@ -6,15 +6,16 @@ import { LoginInfoStore, Manager, getManagers } from "../../../lib/store";
 
 import CreateManagerModal from "../../../components/Manager/CreateManagerModal";
 import UpdateManagerModal from "../../../components/Manager/UpdateManagerModal";
-import DeleteManagerModal from "../../../components/Manager/DeleteManagerModal";
+import { DeleteManagerModalButton } from "../../../components/Manager";
+// import DeleteManagerModal from "../../../components/Manager/DeleteManagerModal";
 
 const Account: Component = () => {
   const createShow = createSignal(false);
   const [getCreateShow, setCreateShow] = createShow;
   const updateTarget = createSignal<Manager | undefined>();
   const [getUpdateTarget, setUpdateTarget] = updateTarget;
-  const deleteTarget = createSignal<Manager | undefined>();
-  const [getDeleteTarget, setDeleteTarget] = deleteTarget;
+  // const deleteTarget = createSignal<Manager | undefined>();
+  // const [getDeleteTarget, setDeleteTarget] = deleteTarget;
 
   const managers = createAsync(() => getManagers());
   const { user } = LoginInfoStore();
@@ -22,7 +23,7 @@ const Account: Component = () => {
   return <>
     <CreateManagerModal open={createShow} />
     <UpdateManagerModal target={updateTarget} />
-    <DeleteManagerModal target={deleteTarget} />
+    {/* <DeleteManagerModal target={deleteTarget} /> */}
 
     <Paper sx={{
       padding: 2,
@@ -67,9 +68,10 @@ const Account: Component = () => {
                       <Button onClick={() => setUpdateTarget(item)} disabled={item.id == 1 || user()?.id != 1}>
                         <Edit />
                       </Button>
-                      <Button onClick={() => setDeleteTarget(item)} disabled={item.id == 1 || user()?.id != 1}>
+                      <DeleteManagerModalButton target={() => item} disabled={() => item.id == 1 || user()?.id != 1}><Delete /></DeleteManagerModalButton>
+                      {/* <Button onClick={() => setDeleteTarget(item)} disabled={item.id == 1 || user()?.id != 1}>
                         <Delete />
-                      </Button>
+                      </Button> */}
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>

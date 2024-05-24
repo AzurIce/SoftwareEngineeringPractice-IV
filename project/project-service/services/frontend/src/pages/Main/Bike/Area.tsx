@@ -1,4 +1,4 @@
-import { createAsync, useParams } from "@solidjs/router";
+import { createAsync, useNavigate, useParams } from "@solidjs/router";
 import { Component, For, Show, createSignal } from "solid-js";
 import { getAreaBikes, getAreaById } from "../../../lib/axios/bike";
 import { Box, Button, ButtonGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
@@ -8,13 +8,18 @@ import { calcZoom } from "../../../lib/utils";
 import AreaAddBikeModal from "../../../components/Bike/AreaAddBikeModal";
 import AreaPreview from "../../../components/Mapbox/AreaPreview";
 import AreaView from "../../../components/Mapbox/AreaView";
+import { DeleteAreaButton } from "../../../components/Area";
 
 const Area: Component = () => {
   const params = useParams();
+  const navigate = useNavigate();
 
   const area = createAsync(() => getAreaById(parseInt(params.id)));
   const targetAreaIdSignal = createSignal<number | undefined>()
   const [targetAreaId, setTargetAreaId] = targetAreaIdSignal;
+
+  const onEdit = () => { }
+
 
   return <>
     <AreaAddBikeModal targetAreaId={targetAreaIdSignal} />
@@ -29,8 +34,8 @@ const Area: Component = () => {
           <Typography variant="h6">骑行区 - {area()?.name}</Typography>
 
           <ButtonGroup>
-            <Button>编辑骑行区<Edit /></Button>
-            <Button color="error">删除骑行区<Delete /></Button>
+            <Button onClick={onEdit}>编辑骑行区<Edit /></Button>
+            <DeleteAreaButton target={() => area()!} then={() => navigate(`/bike`)}/>
           </ButtonGroup>
         </div>
         <span>中心经纬度: {area()?.lng}, {area()?.lat}</span>

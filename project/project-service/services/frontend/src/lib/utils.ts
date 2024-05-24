@@ -53,11 +53,13 @@ export function calcZoom(points: LngLat[], pixel: number) {
 
   let maxDistance = 0;
   for (const point of points) {
+    // console.log(center, point)
     const distance = haversineDistance(center, point);
     if (distance > maxDistance) {
       maxDistance = distance;
     }
   }
+  // console.log(`maxDistance: ${maxDistance}`)
 
   return calcZoomLevel(center.lat, maxDistance, pixel);
 }

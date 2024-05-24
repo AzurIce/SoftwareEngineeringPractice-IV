@@ -1,5 +1,5 @@
 import { Component, Show } from "solid-js";
-import { Area, LngLat } from "../../lib/store";
+import { Area } from "../../lib/store";
 import { createAsync } from "@solidjs/router";
 import { getAreaById } from "../../lib/axios/bike";
 import { Box } from "@suid/material";
@@ -10,8 +10,15 @@ const AreaPreview: Component<{ area: Area }> = (props) => {
   const { area } = props;
 
   const _area = createAsync(() => getAreaById(area.id));
-  const zoom = () => calcZoom(_area()!.points, 150);
-  const center = () => _area() as LngLat;
+  const zoom = () => {
+    return calcZoom(_area()!.points, 150)
+  }
+  const center = () => {
+    return {
+      lng: _area()!.lng,
+      lat: _area()!.lat
+    }
+  };
 
   return <>
     <Box sx={{ width: 150, height: 150, position: "relative" }}>
