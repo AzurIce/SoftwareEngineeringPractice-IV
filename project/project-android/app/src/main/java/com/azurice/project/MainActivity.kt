@@ -5,16 +5,25 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.azurice.project.ui.theme.ProjectTheme
@@ -39,7 +48,9 @@ class MainActivity : ComponentActivity() {
         Log.i("MainActivity", "onCreate")
         // Check whether your app is running on a device that has a front-facing camera.
         if (applicationContext.packageManager.hasSystemFeature(
-                PackageManager.FEATURE_LOCATION)) {
+                PackageManager.FEATURE_LOCATION
+            )
+        ) {
             Log.i("MainActivity", "Device has location")
             // Continue with the part of your app's workflow that requires a
             // front-facing camera.
@@ -50,7 +61,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProjectTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     Map()
                 }
             }
@@ -70,25 +84,44 @@ fun Map() {
     )
 
     if (locationPermissionsState.allPermissionsGranted) {
-        MapboxMap(
-            Modifier.fillMaxSize(),
-            mapViewportState = MapViewportState().apply {
-                setCameraOptions {
-                    zoom(14.0)
-                    center(Point.fromLngLat(116.3358, 39.9522))
-                    pitch(0.0)
-                    bearing(0.0)
+        Box(Modifier.fillMaxSize()) {
+            MapboxMap(
+                Modifier.fillMaxSize(),
+                mapViewportState = MapViewportState().apply {
+                    setCameraOptions {
+                        zoom(14.0)
+                        center(Point.fromLngLat(116.3358, 39.9522))
+                        pitch(0.0)
+                        bearing(0.0)
+                    }
+                },
+            ) {
+                MapEffect(Unit) {
+                    it.location.apply {
+                        enabled = true
+                        locationPuck = createDefault2DPuck(withBearing = true)
+                        puckBearingEnabled = true
+                        puckBearing = PuckBearing.HEADING
+                    }
                 }
-            },
-        ) {
-            MapEffect(Unit) {
-                it.location.apply {
-                    enabled = true
-                    locationPuck = createDefault2DPuck(withBearing = true)
-                    puckBearingEnabled = true
-                    puckBearing = PuckBearing.HEADING
+            }
+            Box(
+                Modifier
+                    .height(80.dp)
+                    .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+                    .background(Color.White)
+                    .align(Alignment.BottomCenter)
+            ) {
+                Button(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .height(70.dp)
+                        .padding(10.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(text = "解锁单车")
                 }
-
             }
         }
     } else {
@@ -124,5 +157,13 @@ fun Map() {
                 Text(buttonText)
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun MapPreview() {
+    ProjectTheme {
+        Map()
     }
 }
