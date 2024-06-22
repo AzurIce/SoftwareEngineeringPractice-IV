@@ -5,6 +5,8 @@ import (
 	"auth/internal/jwt"
 	"auth/internal/models"
 	"errors"
+	"log"
+
 	// "log"
 
 	// "auth/internal/utils"
@@ -25,6 +27,7 @@ type Login struct {
 func (service *Login) Handle(c *gin.Context) (any, error) {
 	var user *models.User
 	var err error
+	log.Println("login: ", *service)
 
 	// Validate the form
 	if service.Username == "" {
