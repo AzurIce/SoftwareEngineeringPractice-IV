@@ -3,10 +3,22 @@ package server
 import (
 	"bike/server/middlewares"
 	"bike/server/service"
+	"log"
+	"net/http"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
+
+func NotFoundLogger() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        c.Next()
+
+        if c.Writer.Status() == http.StatusNotFound {
+            log.Printf("404 Not Found: %s %s", c.Request.Method, c.Request.URL.Path)
+        }
+    }
+}
 
 func InitRouter() *gin.Engine {
 	r := gin.New()
@@ -18,6 +30,7 @@ func InitRouter() *gin.Engine {
 	config.AllowAllOrigins = true
 	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Authorization"}
 	r.Use(cors.New(config))
+	r.Use(NotFoundLogger())
 
 	/*
 		路由
