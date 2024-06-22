@@ -2,7 +2,7 @@ import { cache } from "@solidjs/router";
 import { AlertColor } from "@suid/material/Alert";
 import { createStore } from "solid-js/store";
 import { getManagers as apiGetAdmins } from "./axios/auth";
-import { getAllAreas, getAreaBikes, getAreaById } from "./axios/bike";
+import { getAllAreas, getAreaBikes as apiGetAreaBikes, getAreaById, getBikes as apiGetBikes } from "./axios/bike";
 
 interface User {
   id: number,
@@ -119,6 +119,10 @@ export type Bike = {
   lat: number,
 }
 
-export const getBikes = cache(async (id: number) => {
-  return await getAreaBikes(id)
+export const getAreaBikes = cache(async (id: number) => {
+  return await apiGetAreaBikes(id)
 }, "areabikes")
+
+export const getBikes = cache(async () => {
+  return await apiGetBikes()
+}, "bikes")

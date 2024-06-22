@@ -1,30 +1,14 @@
 import { Add, Delete, Edit } from "@suid/icons-material";
 import { Button, ButtonGroup, Card, CardActions, CardContent, CardMedia, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@suid/material";
 import { Component, For, createSignal } from "solid-js";
-import { Area, getAreas } from "../../../lib/store";
+import { Area, getAreas, getBikes } from "../../../lib/store";
 import { createAsync, useNavigate } from "@solidjs/router";
 import AreaCard from "../../../components/Area/AreaCard";
 import CreateAreaModal from "../../../components/Area/CreateAreaModal";
 
-function createData(
-  id: number,
-  deployDate: Date,
-  latitude: number,
-  longitude: number,
-) {
-  return { id, deployDate, latitude, longitude };
-}
-
-const rows = [
-  createData(1, new Date(2024, 4, 21), 45.6, 87.3),
-  createData(2, new Date(2024, 4, 21), 45.6, 87.3),
-  createData(3, new Date(2024, 4, 21), 45.6, 87.3),
-  createData(4, new Date(2024, 4, 21), 45.6, 87.3),
-  createData(5, new Date(2024, 4, 21), 45.6, 87.3),
-];
-
 const Bike: Component = () => {
   const areas = createAsync(() => getAreas());
+  const bikes = createAsync(() => getBikes());
 
   const createAreaModalSignal = createSignal(false);
   const [createAreaModalOpen, setCreateAraeModalOpen] = createAreaModalSignal;
@@ -72,17 +56,16 @@ const Bike: Component = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <For each={rows}>
-                {(row) => (
+              <For each={bikes()}>
+                {(bike) => (
                   <TableRow
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.id}
+                      {bike.uid}
                     </TableCell>
-                    <TableCell>{row.deployDate.toLocaleDateString()}</TableCell>
-                    <TableCell>{row.latitude}</TableCell>
-                    <TableCell>{row.longitude}</TableCell>
+                    <TableCell>{bike.lat}</TableCell>
+                    <TableCell>{bike.lng}</TableCell>
                     <TableCell>
                       <ButtonGroup>
                         <Button>
