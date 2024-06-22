@@ -9,6 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -64,6 +68,9 @@ fun FriendsListScreen(onNavigateToMain: () -> Unit) {
 @Composable
 fun App() {
     val navController = rememberNavController()
+
+    var jwt by remember { mutableStateOf("") }
+
     NavHost(navController, startDestination = Profile(name = "John Smith")) {
         composable<Profile> { backStackEntry ->
             val profile: Profile = backStackEntry.toRoute()
@@ -77,8 +84,9 @@ fun App() {
         composable<Login> {
             Login(
                 onSuccess = {
+                    jwt = it.data.token
                     navController.navigate(
-                        route = Map
+                        route = Map(jwt = jwt)
                     )
                 }
             )

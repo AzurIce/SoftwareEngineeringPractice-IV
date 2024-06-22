@@ -1,9 +1,14 @@
 import axios from 'axios'
 
 
+// export enum Service {
+//   Auth = 'http://127.0.0.1:80/api',
+//   Bike = 'http://127.0.0.1:81/api'
+// }
+
 export enum Service {
-  Auth = 'http://127.0.0.1:80/api',
-  Bike = 'http://127.0.0.1:81/api'
+  Auth = 'http://123.113.109.105:9999/auth/api',
+  Bike = 'http://123.113.109.105:9999/bike/api'
 }
 
 export function get(service: Service, url: string, options?: any): Promise<any> {
