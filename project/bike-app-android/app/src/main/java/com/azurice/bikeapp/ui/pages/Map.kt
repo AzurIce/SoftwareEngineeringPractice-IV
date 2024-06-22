@@ -33,7 +33,7 @@ import com.mapbox.maps.plugin.locationcomponent.location
 import kotlinx.serialization.Serializable
 
 @Serializable
-object Map
+data class Map(val jwt: String)
 
 @OptIn(MapboxExperimental::class, ExperimentalPermissionsApi::class)
 @Composable
