@@ -38,6 +38,18 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.auth.rule=Host(`auth.localhost`)"
       - "traefik.http.services.auth.loadbalancer.server.port=80"
+  
+  bike:
+    build: ./services/bike
+    volumes:
+      - ./docker/config-bike.yml:/app/config.yml
+    depends_on:
+      postgres:
+        condition: service_healthy
+    labels: 
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=Host(`bike.localhost`)"
+      - "traefik.http.services.auth.loadbalancer.server.port=80"
 
   postgres:
     image: postgres:alpine
