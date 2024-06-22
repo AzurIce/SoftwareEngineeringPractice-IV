@@ -1,2 +1,2 @@
 sql_dsn: postgres://root:root@postgres:5432/bike
-auth_url: http://auth.localhost/api/v1/auth
+auth_url: http://auth/api/v1/auth
