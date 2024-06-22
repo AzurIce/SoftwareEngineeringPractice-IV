@@ -48,8 +48,8 @@ services:
         condition: service_healthy
     labels: 
       - "traefik.enable=true"
-      - "traefik.http.routers.auth.rule=Host(`bike.localhost`)"
-      - "traefik.http.services.auth.loadbalancer.server.port=80"
+      - "traefik.http.routers.bike.rule=Host(`bike.localhost`)"
+      - "traefik.http.services.bike.loadbalancer.server.port=80"
 
   postgres:
     image: postgres:alpine
