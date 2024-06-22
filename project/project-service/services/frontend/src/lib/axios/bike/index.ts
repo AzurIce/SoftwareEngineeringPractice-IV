@@ -33,3 +33,7 @@ export function getAreaBikes(id: number): Promise<Bike> {
   console.log(`axios:getAreaBikes(${id})`)
   return get(service, `/v1/area/${id}/bikes`)
 }
+
+export function getBikes(): Promise<Bike[]> {
+  return get(service, `/v1/bikes`)
+}
